@@ -14,7 +14,7 @@ Then copy file to a ProDOS disk image (32 Mb) with CiderPress or AppleCommander.
 
 *.ind file don't need to be copied to the ProDOS disk image. You can delete them. They may be used in a future version. 
 
-Important  : Index files end with Px (x being de number from 1 to 4). You must create 4 directories in ProDOS (P1 to P4) and copy the corresponding files. See disk image in Apple-II-crossword-solver disk image repository as example.
+Important  : Index files end with Px (x being de number from 1 to 4). You must create 4 directories on ProDOS disk image (P1 to P4) and copy the corresponding files. See disk image in Apple-II-crossword-solver disk image repository as example.
 
 ## Technics
 I use Delphi Community Edition, latest version.
