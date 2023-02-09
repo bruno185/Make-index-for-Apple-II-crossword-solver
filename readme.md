@@ -20,3 +20,5 @@ Important  : Index files end with Px (x being de number from 1 to 4). You must c
 I use Delphi Community Edition, latest version.
 *.ind are uncompressed version of other files.
 Commpression is run lngth encoding.
+
+This is an example of today's technology at the service of the technology of 40 years ago (that of the Apple II)
