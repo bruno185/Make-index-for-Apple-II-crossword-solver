@@ -8,8 +8,13 @@ Launch program
 Clic firt button to generate a WORDS file (16 chars for each word).
 Clic second button to create indexes. It can take some minutes. The progam might seem crashed, but it is not. Just wait.
 
-Then copy file to a ProDOS disk image (32 Mb) with CiderPress or AppleCommander.
+Then copy file to a ProDOS disk image (32 Mb) with CiderPress or AppleCommander. 
+
+*.ind file don't need to be copied to the ProDOS disk image. You can delete them. They may be used in a future version. 
+
 Important  : Index files end with Px (x being de nuber from 1 to 4). You must create 4 directories in ProDOS (P1 to P4) and copy the corresponding files. See disk image in Apple-II-crossword-solver disk image repository.
 
 ## Technics
 I use Delphi Community Edition, latest version.
+*.ind are uncompressed version of other files.
+Commpression is run lngth encoding.
