@@ -4,8 +4,10 @@ You can fin my Apple II Croosword Solver program here :
 https://github.com/bruno185/Apple-II-crossword-solver
 
 ## Use
-Launch program
-Clic firt button to generate a WORDS file (16 chars for each word).
+Launch program.
+
+Clic first button to generate a WORDS file (16 chars for each word).
+
 Clic second button to create indexes. It can take some minutes. The progam might seem crashed, but it is not. Just wait.
 
 Then copy file to a ProDOS disk image (32 Mb) with CiderPress or AppleCommander. 
