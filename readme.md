@@ -8,7 +8,7 @@ Launch program.
 
 Clic first button to generate a WORDS file (16 chars for each word).
 
-Clic second button to create indexes. It can take some minutes. The progam might seem crashed, but it is not. Just wait.
+Clic second button to create indexes. It can take some minutes. The progam might seem crashed, but it is not. Just wait (while running, you can check directories are growing).
 
 Then copy directories P1,P2, P3, P4, L and WORDS file to a ProDOS disk image (32 Mb) with CiderPress or AppleCommander. See disk image in Apple-II-crossword-solver repository as example.
 
