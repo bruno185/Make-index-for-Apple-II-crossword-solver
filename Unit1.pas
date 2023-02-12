@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, math;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, math, IOUtils;
 
 type
   TForm1 = class(TForm)
@@ -14,6 +14,7 @@ type
     procedure DoInit(Sender: TObject);
     procedure makeSplitIndexClick(Sender: TObject);
     procedure makeWordsFileClick(Sender: TObject);
+    procedure makeDirClick(Sender: TObject);
   private
     { Déclarations privées }
   public
@@ -165,7 +166,7 @@ begin
   for curpart := 1 to 4 do
   begin
     fillchar(desc,sizeof(desc),0);
-    fname := 'LG'+hex[l]+'P'+inttostr(curpart);
+    fname := 'L\L'+hex[l]+'P'+inttostr(curpart);
     assignfile(f, fname);
     rewrite(f);
     form1.memo1.Lines.Add(fname);
@@ -311,7 +312,7 @@ begin
 
   // save index file and RL file
 
-  indexfile := char(letter)+ hex[rank] +'P'+inttostr(part);
+  indexfile := 'P'+ inttostr(part) +'\'+ char(letter)+ hex[rank] +'P' + inttostr(part);
 
   // save index to disk
   Assignfile(f,indexfile+'.ind');
@@ -348,6 +349,27 @@ begin
   makeindex := total;
 end;
 
+procedure MakeDirs;
+begin
+  //delete existing dirs
+  try
+    TDirectory.Delete('P1', True);
+    TDirectory.Delete('P2', True);
+    TDirectory.Delete('P3', True);
+    TDirectory.Delete('P4', True);
+    TDirectory.Delete('P1', True);
+    TDirectory.Delete('L', True);
+
+  except
+  end;
+  // create new dirs
+  TDirectory.CreateDirectory('P1');
+  TDirectory.CreateDirectory('P2');
+  TDirectory.CreateDirectory('P3');
+  TDirectory.CreateDirectory('P4');
+  TDirectory.CreateDirectory('L');
+end;
+
 procedure TForm1.makeWordsFileClick(Sender: TObject);
 var
   f : file of byte;
@@ -376,6 +398,27 @@ begin
   memo1.Lines.Add('File created ('+ inttostr(mots) + ') words.');
 end;
 
+procedure TForm1.makeDirClick(Sender: TObject);
+begin
+  memo1.Lines.Add('Creating directories...');
+  //delete existing dirs
+  try
+    TDirectory.Delete('P1', True);
+    TDirectory.Delete('P2', True);
+    TDirectory.Delete('P3', True);
+    TDirectory.Delete('P4', True);
+    TDirectory.Delete('P1', True);
+    TDirectory.Delete('L', True);
+  except
+  end;
+  // create new dirs
+  TDirectory.CreateDirectory('P1');
+  TDirectory.CreateDirectory('P2');
+  TDirectory.CreateDirectory('P3');
+  TDirectory.CreateDirectory('P4');
+  TDirectory.CreateDirectory('L');
+end;
+
 procedure TForm1.DoInit(Sender: TObject);
 begin
   divider := 4;
@@ -392,6 +435,11 @@ letter, rank : integer;
 
 begin
   memo1.Clear;
+  memo1.Lines.Add('Creating directories...');
+  MakeDirs;
+  memo1.Lines.Add('Done.');
+
+  memo1.Lines.Add('Creating index files...');
   for letter := ord('A')to ord('Z') do
   for rank := 1 to max do
   begin

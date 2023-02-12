@@ -4,16 +4,18 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, math;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, math, IOUtils;
 
 type
   TForm1 = class(TForm)
     Memo1: TMemo;
     makeSplitIndex: TButton;
     makeWordsFile: TButton;
+    makeDir: TButton;
     procedure DoInit(Sender: TObject);
     procedure makeSplitIndexClick(Sender: TObject);
     procedure makeWordsFileClick(Sender: TObject);
+    procedure makeDirClick(Sender: TObject);
   private
     { Déclarations privées }
   public
@@ -165,7 +167,7 @@ begin
   for curpart := 1 to 4 do
   begin
     fillchar(desc,sizeof(desc),0);
-    fname := 'LG'+hex[l]+'P'+inttostr(curpart);
+    fname := 'L\L'+hex[l]+'P'+inttostr(curpart);
     assignfile(f, fname);
     rewrite(f);
     form1.memo1.Lines.Add(fname);
@@ -354,7 +356,6 @@ var
   i,j : integer;
   b : byte;
   s : string;
-  words, wrdmax : integer;
 begin
   memo1.Clear;
   AssignFile(f,'WORDS');
@@ -375,6 +376,31 @@ begin
   end;
   closefile(f);
   memo1.Lines.Add('File created ('+ inttostr(mots) + ') words.');
+end;
+
+procedure TForm1.makeDirClick(Sender: TObject);
+begin
+  memo1.Lines.Add('Creating directories...');
+  //delete existing dirs
+  try
+    TDirectory.Delete('P1', True);
+    TDirectory.Delete('P2', True);
+    TDirectory.Delete('P3', True);
+    TDirectory.Delete('P4', True);
+    TDirectory.Delete('P1', True);
+    TDirectory.Delete('L', True);
+
+  except
+  end;
+  // create new dirs
+  TDirectory.CreateDirectory('P1');
+  TDirectory.CreateDirectory('P2');
+  TDirectory.CreateDirectory('P3');
+  TDirectory.CreateDirectory('P4');
+  TDirectory.CreateDirectory('L');
+
+  memo1.Lines.Add('Done.');
+
 end;
 
 procedure TForm1.DoInit(Sender: TObject);

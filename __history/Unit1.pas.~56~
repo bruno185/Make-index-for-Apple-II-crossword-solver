@@ -4,16 +4,18 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, math;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, math, IOUtils;
 
 type
   TForm1 = class(TForm)
     Memo1: TMemo;
     makeSplitIndex: TButton;
     makeWordsFile: TButton;
+    Button1: TButton;
     procedure DoInit(Sender: TObject);
     procedure makeSplitIndexClick(Sender: TObject);
     procedure makeWordsFileClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Déclarations privées }
   public
@@ -161,11 +163,11 @@ var
   f : file of byte;
 begin
 
-  for l := 1 to max do
+  for l := 2 to max do
   for curpart := 1 to 4 do
   begin
     fillchar(desc,sizeof(desc),0);
-    fname := 'L'+hex[l]+'P'+inttostr(curpart);
+    fname := 'L\L'+hex[l]+'P'+inttostr(curpart);
     assignfile(f, fname);
     rewrite(f);
     form1.memo1.Lines.Add(fname);
@@ -288,7 +290,7 @@ end;
 
 
 function makeindex(letter, rank : integer) : integer;
-// populate desc, RL compress, save binary RLE file, uncompress and compare
+// populate desc, RL compress, save binary RLE and non RLE files, uncompress and compare
 // according to inputs
 
 var
@@ -312,7 +314,7 @@ begin
   // save index file and RL file
 
   indexfile := char(letter)+ hex[rank] +'P'+inttostr(part);
-  //indexfile := char(letter)+inttohex(rank)+'P'+inttostr(part);
+
   // save index to disk
   Assignfile(f,indexfile+'.ind');
   rewrite(f);
@@ -354,7 +356,6 @@ var
   i,j : integer;
   b : byte;
   s : string;
-  words, wrdmax : integer;
 begin
   memo1.Clear;
   AssignFile(f,'WORDS');
@@ -377,12 +378,33 @@ begin
   memo1.Lines.Add('File created ('+ inttostr(mots) + ') words.');
 end;
 
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+    memo1.Lines.Add('Creating directories...');
+    try
+      TDirectory.Delete('P1', True);
+      TDirectory.Delete('P2', True);
+      TDirectory.Delete('P3', True);
+      TDirectory.Delete('P4', True);
+      TDirectory.Delete('P1', True);
+      TDirectory.Delete('L', True);
+
+    except
+    end;
+          TDirectory.CreateDirectory('P1');
+      TDirectory.CreateDirectory('P2');
+      TDirectory.CreateDirectory('P3');
+      TDirectory.CreateDirectory('P4');
+      TDirectory.CreateDirectory('L');
+    memo1.Lines.Add('Done.');
+    makeLengthIndex;
+end;
+
 procedure TForm1.DoInit(Sender: TObject);
 begin
   divider := 4;
   wordfile := 'ods6.txt';
   mots := fillbig(wordfile);
-  part := 4;
 
 end;
 
@@ -397,11 +419,12 @@ begin
   for letter := ord('A')to ord('Z') do
   for rank := 1 to max do
   begin
+    for part := 1 to 4 do
     total := makeindex(letter,rank);
     memo1.Lines.Add('Total bytes : '+inttostr(total));
   end;
   makeLengthIndex;
-
+  memo1.Lines.Add('End of process.');
 end;
 
 end.
